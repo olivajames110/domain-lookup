@@ -16,7 +16,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npx vercel --token ${VERCEL_TOKEN} --prod
+    yarn vercel --token ${VERCEL_TOKEN} --prod
   displayName: 'deploy to vercel'
   env:
     VERCEL_TOKEN: $(VERCEL_TOKEN)
