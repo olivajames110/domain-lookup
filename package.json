@@ -17,13 +17,16 @@
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.5",
     "@mui/material": "^5.0.6",
+    "axios": "^0.24.0",
     "next": "12.0.1",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "whois-json": "^2.0.4"
   },
   "devDependencies": {
     "@types/node": "16.11.6",
     "@types/react": "17.0.33",
+    "@types/whois-json": "^2.0.2",
     "eslint": "7",
     "eslint-config-next": "12.0.1",
     "prettier": "^2.4.1",

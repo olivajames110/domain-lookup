@@ -1,5 +1,6 @@
 import {
   Alert,
+  Button,
   Card,
   CardContent,
   Grid,
@@ -7,12 +8,26 @@ import {
   TextField,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import React, { useState } from "react";
+import { whois, RegistrationData } from "src/services/whois";
 
 export const Domain: NextPage = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [domain, setDomain] = useState<string>("");
+
+  const [whoisResult, setWhoisResult] = useState<RegistrationData>({});
+
+  const changeDomain = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDomain(event.target.value);
+  };
+
+  const submitDomain = async () => {
+    console.log("submitted");
+    setWhoisResult(await whois(domain));
+  };
+
   return (
     <Box padding={2}>
       <Snackbar
@@ -25,7 +40,12 @@ export const Domain: NextPage = () => {
         </Alert>
       </Snackbar>
 
-      <TextField label="Domain Name" />
+      <TextField label="Domain Name" value={domain} onChange={changeDomain} />
+      <Button variant="contained" onClick={submitDomain}>
+        Submit
+      </Button>
+
+      <code>{JSON.stringify(whoisResult)}</code>
 
       <Grid container>
         <Grid item xs={6}>
