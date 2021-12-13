@@ -23,6 +23,8 @@ export const Domain: NextPage = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [domainSearchName, setDomainSearchName] = useState("");
+  const [domainSearchTopLevelDomain, setDomainSearchTopLevelDomain] =
+    useState("");
   const [activeDomainName, setActiveDomainName] = useState("examplename.com");
   const [recentDomains, setRecentDomains] = useState([
     "example1",
@@ -32,11 +34,16 @@ export const Domain: NextPage = () => {
     "example5",
   ]);
 
-  const domainSearchHandler = (e) => {
-    e.preventDefault();
-    console.log(e);
+  const topLevelDomainHandler = (e) => {
+    const topLevelDomain = e.target.value;
+    setDomainSearchTopLevelDomain(topLevelDomain);
+  };
 
-    setDomainSearchName(e.target.value);
+  const domainSubmitHandler = () => {
+    setDomainSearchName("");
+    setDomainSearchName("");
+    const combinedDomain = `${domainSearchName}.${domainSearchTopLevelDomain}`;
+    setActiveDomainName(combinedDomain);
   };
 
   const selectedDomainSearchName = (
@@ -113,8 +120,10 @@ export const Domain: NextPage = () => {
       </Snackbar>
 
       <DomainSearchSection
-        onChange={domainSearchHandler}
+        onChange={(e) => setDomainSearchName(e.target.value)}
         domainSearchName={domainSearchName}
+        topLevelDomainHandler={topLevelDomainHandler}
+        domainSubmitHandler={domainSubmitHandler}
       />
 
       <Box maxWidth={"1500px"} margin={"0 auto"} padding={"0 20px"}>

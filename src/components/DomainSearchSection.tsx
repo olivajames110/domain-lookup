@@ -18,6 +18,7 @@ interface Props {
   title: string;
   domainSearchName: string;
   onChange?: () => null;
+  domainSubmitHandler?: () => null;
 }
 
 const buttonStyle = css`
@@ -94,7 +95,28 @@ const DomainSearchSection: FunctionComponent<Props> = (props) => (
           name="domain-search"
           id="domain-search"
         />
-        <button className={buttonStyle}>
+        <select
+          onChange={props.topLevelDomainHandler}
+          style={{
+            height: "50px",
+            border: "1px solid #AFAFAF",
+            padding: "16px",
+            // borderRadius: "2px",
+          }}
+        >
+          <option selected value="com">
+            .com
+          </option>
+          <option value="net">.net</option>
+          <option value="org">.org</option>
+          <option value="edu">.edu</option>
+          <option value="gov">.gov</option>
+          <option value="io">.io</option>
+        </select>
+        <button
+          onClick={() => props.domainSubmitHandler()}
+          className={buttonStyle}
+        >
           <span>
             <Search fontSize="inherit" />
           </span>
