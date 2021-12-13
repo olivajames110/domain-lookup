@@ -1,4 +1,4 @@
-import { Search } from "@mui/icons-material";
+import { Delete, Search } from "@mui/icons-material";
 import { css } from "@emotion/css";
 import {
   Alert,
@@ -14,53 +14,91 @@ import { Box } from "@mui/system";
 
 import { NextPage } from "next";
 import React, { useState } from "react";
+import DomainCardItem from "src/components/DomainCardItem";
+import RecentDomainItem from "src/components/RecentDomainItem";
+import DomainCardItemSection from "src/components/DomainCardItemSection";
+import DomainSearchSection from "src/components/DomainSearchSection";
 
-const buttonStyle = css`
-    width: 130px;
-    height: 50px;
-    border: none;
-    padding: 12px 16px;
-    border-radius: 0;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
-    background-color: #312F2F;
-    color: #ffffff;
-    font-size: 14px;
-    /* transition: 140ms; */
-    display: flex; 
-    justify-content: space-evenly;
-    align-items: center;
-    cursor: pointer;
-    svg {
-      display: block;
-    }
-    &:hover: {
-      background: #9d9b9b ;
-    },
-`;
-
-const DomainCard = (props) => {
-  return (
-    <>
-      <span>
-        <Search />
-      </span>
-      <span>{props.title}</span>
-      <Card>
-        <CardContent>{props.children}</CardContent>
-      </Card>
-    </>
-  );
-};
 export const Domain: NextPage = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [domainName, setDomainName] = useState("");
+  const [domainSearchName, setDomainSearchName] = useState("");
+  const [activeDomainName, setActiveDomainName] = useState("examplename.com");
+  const [recentDomains, setRecentDomains] = useState([
+    "example1",
+    "example2",
+    "example3",
+    "example4",
+    "example5",
+  ]);
 
   const domainSearchHandler = (e) => {
     e.preventDefault();
-    setDomainName(e.target.name);
+    console.log(e);
+
+    setDomainSearchName(e.target.value);
   };
+
+  const selectedDomainSearchName = (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        margin: "30px auto",
+        justifyContent: "center",
+        fontSize: "22px",
+      }}
+    >
+      <span>Domain Name:</span>
+      <Box
+        sx={{
+          backgroundColor: "#ffffff",
+          padding: "10px 18px",
+          fontWeight: "bold",
+          marginLeft: "15px",
+        }}
+      >
+        {activeDomainName}
+      </Box>
+    </Box>
+  );
+
+  const DUMMYDATA_WHOIS = [
+    {
+      title: "Domain",
+      rows: [
+        {
+          title: "Registrar Company:",
+          value: "GoDaddy",
+        },
+        {
+          title: "Name Servers:",
+          value: "Example Server1",
+        },
+        {
+          title: "Admin Email:",
+          value: "email@email.com",
+        },
+      ],
+    },
+    {
+      title: "Domain",
+      rows: [
+        {
+          title: "Registrar Company:",
+          value: "GoDaddy",
+        },
+        {
+          title: "Name Servers:",
+          value: "Example Server1",
+        },
+        {
+          title: "Admin Email:",
+          value: "email@email.com",
+        },
+      ],
+    },
+  ];
 
   return (
     <Box>
@@ -74,91 +112,57 @@ export const Domain: NextPage = () => {
         </Alert>
       </Snackbar>
 
-      {/* Search container  */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          padding: "30px",
-          background: "#ffffff",
-        }}
-      >
-        <Box
-          sx={{
-            width: "100%",
-            maxWidth: "840px",
-            margin: "0 auto",
-            padding: "22px 0",
-          }}
-        >
-          <InputLabel
-            sx={{ fontWeight: "bold", marginBottom: "3px" }}
-            htmlFor={"domain-search"}
-          >
-            Enter Your Domain
-          </InputLabel>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+      <DomainSearchSection
+        onChange={domainSearchHandler}
+        domainSearchName={domainSearchName}
+      />
 
-              background: "#ffffff",
-            }}
-          >
-            <input
-              style={{
-                width: "100%",
-                height: "50px",
-                border: "1px solid #AFAFAF",
-                padding: "12px 16px",
-                // borderRadius: "2px",
-              }}
-              value={domainName}
-              onChange={domainSearchHandler}
-              type="text"
-              name="domain-search"
-              id=""
-            />
-            <button className={buttonStyle}>
-              <span>
-                <Search fontSize="inherit" />
-              </span>
-              <span style={{ fontWeight: "bold" }}>Search</span>
-            </button>
-          </Box>
-        </Box>
-      </Box>
-      {/* End Search container  */}
-
-      <Box padding={2}>
-        <Grid spacing={2} container>
+      <Box maxWidth={"1500px"} margin={"0 auto"} padding={"0 20px"}>
+        <Grid container>
           {/* Main Body Col   */}
-          <Grid item xs={10}>
-            <Grid
-              sx={{ maxWidth: "1080px", margin: "0 auto" }}
-              spacing={3}
-              container
-            >
+          <Grid sx={{ maxWidth: "1080px", margin: "0 auto" }} item xs={9}>
+            {selectedDomainSearchName}
+
+            <Grid spacing={3} container>
               <Grid item xs={4}>
-                <DomainCard title="Summary">Content</DomainCard>
+                <DomainCardItem
+                  title="Summary"
+                  data={DUMMYDATA_WHOIS}
+                  icon={<Search />}
+                />
               </Grid>
               <Grid item xs={4}>
-                {" "}
-                <DomainCard title="WHOIS">Content</DomainCard>
+                <DomainCardItem
+                  title="WHOIS"
+                  data={DUMMYDATA_WHOIS}
+                  icon={<Search />}
+                />
               </Grid>
               <Grid item xs={4}>
-                {" "}
-                <DomainCard title="DNS">Content</DomainCard>
+                <DomainCardItem
+                  title="DNS"
+                  data={DUMMYDATA_WHOIS}
+                  icon={<Search />}
+                />
               </Grid>
             </Grid>
+            <DomainCardItem
+              title="Summary"
+              data={DUMMYDATA_WHOIS}
+              icon={<Search />}
+            />
           </Grid>
 
           {/* Recent Search Col  */}
-          <Grid item xs={2}>
+          <Grid
+            sx={{ maxWidth: "320px", margin: "0 auto", padding: "15px 25px" }}
+            item
+            xs={3}
+          >
             <h3>Recent Searches</h3>
+            {recentDomains.map((d) => (
+              <RecentDomainItem domain={d} />
+            ))}
           </Grid>
         </Grid>
       </Box>
