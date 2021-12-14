@@ -58,6 +58,9 @@ const RecentDomainItem: FunctionComponent<Props> = (props) => {
     >
       <Grid container spacing={4}>
         <Grid item xs={3}>
+          <CardDetailItem title="Registrar" rows={["GoDaddy"]} />
+        </Grid>
+        <Grid item xs={3}>
           <CardDetailItem
             title="Name Servers"
             rows={["ns1.domain.com", "ns2.domain.com"]}
@@ -65,12 +68,17 @@ const RecentDomainItem: FunctionComponent<Props> = (props) => {
         </Grid>
         <Grid item xs={3}>
           <CardDetailItem title="A-Record" rows={["75.103.71.153"]} />
+          <CardDetailItem title="C-Name" rows={["75.103.71.153"]} />
         </Grid>
         <Grid item xs={3}>
-          <CardDetailItem title="Name Servers" rows={[]} />
-        </Grid>
-        <Grid item xs={3}>
-          <CardDetailItem title="Name Servers" rows={[]} />
+          <CardDetailItem
+            title="MX Records"
+            rows={[
+              "alt1.aspmx.l.google.com",
+              "aspmx2.googlemail.com",
+              "aspmx3.googlemail.com",
+            ]}
+          />
         </Grid>
       </Grid>
     </Box>
@@ -83,7 +91,6 @@ const RecentDomainItem: FunctionComponent<Props> = (props) => {
         borderRadius: "24px",
         display: "flex",
         flexDirection: "column",
-
         overflow: "hidden",
         marginTop: "15px",
       }}
@@ -93,6 +100,7 @@ const RecentDomainItem: FunctionComponent<Props> = (props) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          cursor: "pointer",
         }}
       >
         <button

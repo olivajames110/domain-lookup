@@ -10,6 +10,9 @@ import {
   CardContent,
   Icon,
   InputLabel,
+  Select,
+  MenuItem,
+  TextField,
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { Box } from "@mui/system";
@@ -23,7 +26,7 @@ interface Props {
 
 const buttonStyle = css`
     width: 130px;
-    height: 50px;
+    height: 52px;
     border: none;
     padding: 12px 16px;
     border-radius: 0;
@@ -47,6 +50,20 @@ const buttonStyle = css`
     },
     `;
 
+const styles = (theme) => ({
+  textField: {
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto",
+    paddingBottom: 0,
+    marginTop: 0,
+    fontWeight: 500,
+  },
+  input: {
+    color: "white",
+  },
+});
+
 const DomainSearchSection: FunctionComponent<Props> = (props) => (
   <Box
     sx={{
@@ -66,12 +83,12 @@ const DomainSearchSection: FunctionComponent<Props> = (props) => (
         padding: "22px 0",
       }}
     >
-      <InputLabel
+      {/* <InputLabel
         sx={{ fontWeight: "bold", marginBottom: "3px" }}
         htmlFor={"domain-search"}
       >
         Enter Your Domain
-      </InputLabel>
+      </InputLabel> */}
       <Box
         sx={{
           display: "flex",
@@ -81,7 +98,7 @@ const DomainSearchSection: FunctionComponent<Props> = (props) => (
           background: "#ffffff",
         }}
       >
-        <input
+        {/* <input
           style={{
             width: "100%",
             height: "50px",
@@ -94,8 +111,52 @@ const DomainSearchSection: FunctionComponent<Props> = (props) => (
           type="text"
           name="domain-search"
           id="domain-search"
+        /> */}
+        <TextField
+          name="domain-search"
+          id="domain-search"
+          label="Enter Your Domain"
+          variant="outlined"
+          onChange={props.onChange}
+          inputProps={{
+            style: {
+              borderTopRightRadius: "0px !important",
+              borderBottomRightRadius: "0px !important",
+            },
+          }}
+          sx={{
+            width: "100%",
+            borderRadius: 0,
+            borderTopRightRadius: "0px !important",
+            borderBottomRightRadius: "0px !important",
+            // height: "50px",
+            // border: "1px solid #AFAFAF",
+            // padding: "12px 16px",
+            // borderRadius: "2px",
+          }}
         />
-        <select
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={"com"}
+          onChange={props.topLevelDomainHandler}
+          sx={{
+            width: "160px",
+            borderTopLeftRadius: "0px !important",
+            borderBottomLeftRadius: "0px !important",
+          }}
+        >
+          <MenuItem selected value={"com"}>
+            .com
+          </MenuItem>
+          <MenuItem value={"biz"}>.biz</MenuItem>
+          <MenuItem value={"edu"}>.edu</MenuItem>
+          <MenuItem value={"net"}>.net</MenuItem>
+          <MenuItem value={"org"}>.org</MenuItem>
+          <MenuItem value={"gov"}>.gov</MenuItem>
+          <MenuItem value={"io"}>.io</MenuItem>
+        </Select>
+        {/* <select
           onChange={props.topLevelDomainHandler}
           style={{
             height: "50px",
@@ -112,7 +173,7 @@ const DomainSearchSection: FunctionComponent<Props> = (props) => (
           <option value="edu">.edu</option>
           <option value="gov">.gov</option>
           <option value="io">.io</option>
-        </select>
+        </select> */}
         <button
           onClick={() => props.domainSubmitHandler()}
           className={buttonStyle}

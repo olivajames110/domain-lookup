@@ -33,10 +33,22 @@ const cardTitle = css`
 
 const DomainCardItem: FunctionComponent<Props> = (props) => (
   <Box sx={{ marginBottom: "30px", fontSize: "12px" }}>
-    <Box sx={{ display: "flex", alignItems: "center" }}>
+    <a
+      href={props.href}
+      target={"_blank"}
+      className={cardTitle}
+      rel="noreferrer"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        color: "#333333",
+        textDecoration: "none",
+        marginBottom: "-5px",
+      }}
+    >
       <span className={cardTitle}>{props.icon}</span>
       <span>{props.title}</span>
-    </Box>
+    </a>
     <Box
       sx={{
         background: "#ffffff",

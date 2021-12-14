@@ -54,41 +54,59 @@ const clearButtonStyles = css`
 
 const DUMMYDATA_SUMMARY = [
   {
-    title: "Domain",
+    title: "WHOIS",
     rows: [
       {
-        title: "Registrar Company:",
+        title: "Registrar Company",
         value: "GoDaddy",
       },
       {
-        title: "Name Servers:",
+        title: "Name Servers",
         value: "Example Server1",
       },
       {
-        title: "Admin Email:",
+        title: "Admin Email",
         value: "email@email.com",
       },
     ],
   },
   {
-    title: "Domain",
+    title: "DNS",
     rows: [
       {
-        title: "Registrar Company:",
+        title: "Registrar Company",
         value: "GoDaddy",
       },
       {
-        title: "Name Servers:",
-        value: "Example Server1",
+        title: "A-Record",
+        value: "75.103.71.153",
       },
       {
-        title: "Admin Email:",
-        value: "email@email.com",
+        title: "C Name",
+        value: "75.103.71.153",
       },
     ],
   },
 ];
 const DUMMYDATA_WHOIS = [
+  {
+    title: "Registrar Info",
+    rows: [
+      {
+        title: "Name",
+        value: "GoDaddy.com, LLC",
+      },
+      {
+        title: "Created",
+        value: "Jan 30 2006",
+      },
+      {
+        title: "Expires",
+        value: "Jan 30 2022",
+      },
+    ],
+  },
+
   {
     title: "Name Servers",
     rows: [
@@ -97,28 +115,6 @@ const DUMMYDATA_WHOIS = [
       },
       {
         value: "ns2.domain.com",
-      },
-    ],
-  },
-  {
-    title: "C Name",
-    rows: [
-      {
-        value: "ns2.domain.com",
-      },
-    ],
-  },
-  {
-    title: "MX Records",
-    rows: [
-      {
-        value: "alt1.aspmx.l.google.com",
-      },
-      {
-        value: "aspmx2.googlemail.com",
-      },
-      {
-        value: "aspmx3.googlemail.com",
       },
     ],
   },
@@ -303,6 +299,8 @@ export const Domain: NextPage = () => {
       <Grid spacing={3} container>
         <Grid item xs={4}>
           <DomainCardItem
+            href={`https://${activeDomainName}`}
+            activeDomainName={activeDomainName}
             title="Summary"
             data={DUMMYDATA_SUMMARY}
             icon={<Assignment />}
@@ -310,13 +308,21 @@ export const Domain: NextPage = () => {
         </Grid>
         <Grid item xs={4}>
           <DomainCardItem
+            href={`https://who.is/whois/${activeDomainName}`}
+            activeDomainName={activeDomainName}
             title="WHOIS"
             data={DUMMYDATA_WHOIS}
             icon={<AccountBox />}
           />
         </Grid>
         <Grid item xs={4}>
-          <DomainCardItem title="DNS" data={DUMMYDATA_DNS} icon={<Storage />} />
+          <DomainCardItem
+            activeDomainName={activeDomainName}
+            href={`https://mxtoolbox.com/SuperTool.aspx?action=https%3a%2f%2f${activeDomainName}%2f&run=toolpage`}
+            title="DNS"
+            data={DUMMYDATA_DNS}
+            icon={<Storage />}
+          />
         </Grid>
       </Grid>
       <DomainCardItem
