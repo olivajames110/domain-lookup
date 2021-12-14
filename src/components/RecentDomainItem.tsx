@@ -6,7 +6,7 @@ import { Box } from "@mui/system";
 interface Props {
   domain: string;
   label?: string;
-  className?: string;
+  onClick?: () => null;
 }
 
 const recentButtonStyle = css`
@@ -43,6 +43,7 @@ const RecentDomainItem: FunctionComponent<Props> = (props) => (
     }}
   >
     <button
+      onClick={() => props.onClick(props.domain)}
       style={{
         justifyContent: "space-between",
         flexGrow: "1",
