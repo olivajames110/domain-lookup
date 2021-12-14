@@ -34,9 +34,10 @@ const DomainCardItemSection: FunctionComponent<Props> = (props) => (
             justifyContent: "space-between",
             alignItems: "center",
             marginTop: "8px",
+            flexWrap: "nowrap",
           }}
         >
-          <span>{i.title}</span>
+          {i.title && <span>{i.title}</span>}
 
           <Box
             sx={{

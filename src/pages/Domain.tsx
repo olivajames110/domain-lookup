@@ -52,7 +52,7 @@ const clearButtonStyles = css`
    ,
 `;
 
-const DUMMYDATA_SEARCH = [
+const DUMMYDATA_SUMMARY = [
   {
     title: "Domain",
     rows: [
@@ -84,6 +84,73 @@ const DUMMYDATA_SEARCH = [
       {
         title: "Admin Email:",
         value: "email@email.com",
+      },
+    ],
+  },
+];
+const DUMMYDATA_WHOIS = [
+  {
+    title: "Name Servers",
+    rows: [
+      {
+        value: "ns1.domain.com",
+      },
+      {
+        value: "ns2.domain.com",
+      },
+    ],
+  },
+  {
+    title: "C Name",
+    rows: [
+      {
+        value: "ns2.domain.com",
+      },
+    ],
+  },
+  {
+    title: "MX Records",
+    rows: [
+      {
+        value: "alt1.aspmx.l.google.com",
+      },
+      {
+        value: "aspmx2.googlemail.com",
+      },
+      {
+        value: "aspmx3.googlemail.com",
+      },
+    ],
+  },
+];
+const DUMMYDATA_DNS = [
+  {
+    title: "A-Record",
+    rows: [
+      {
+        value: "75.103.71.153",
+      },
+    ],
+  },
+  {
+    title: "C Name",
+    rows: [
+      {
+        value: "75.103.71.153",
+      },
+    ],
+  },
+  {
+    title: "MX Records",
+    rows: [
+      {
+        value: "alt1.aspmx.l.google.com",
+      },
+      {
+        value: "aspmx2.googlemail.com",
+      },
+      {
+        value: "aspmx3.googlemail.com",
       },
     ],
   },
@@ -154,12 +221,18 @@ export const Domain: NextPage = () => {
     //Post request with Domain name to server
     //Get Request with data object
     setActiveDomainName(combinedDomain);
-    setActiveDomainData(DUMMYDATA_SEARCH);
+    const recent = [combinedDomain, ...recentDomains];
+    setRecentDomains(recent);
+    setActiveDomainData(DUMMYDATA_SUMMARY);
   };
 
   const recentSearchHandler = (d) => {
     console.log("Recent Name");
     setActiveDomainName(d);
+
+    const recent = [d, ...recentDomains];
+    setRecentDomains(recent);
+
     setActiveDomainData(DUMMYDATA_RECENT);
   };
 
@@ -220,9 +293,10 @@ export const Domain: NextPage = () => {
     <Box
       sx={{
         maxWidth: "1080px",
+        width: "100%",
         margin: "0 auto",
-        flexGrow: "1",
-        flexShrink: "0",
+        flexGrow: 1,
+        flexShrink: 0,
       }}
     >
       {SelectedDomainSearchName}
@@ -230,28 +304,24 @@ export const Domain: NextPage = () => {
         <Grid item xs={4}>
           <DomainCardItem
             title="Summary"
-            data={activeDomainData}
+            data={DUMMYDATA_SUMMARY}
             icon={<Assignment />}
           />
         </Grid>
         <Grid item xs={4}>
           <DomainCardItem
             title="WHOIS"
-            data={activeDomainData}
+            data={DUMMYDATA_WHOIS}
             icon={<AccountBox />}
           />
         </Grid>
         <Grid item xs={4}>
-          <DomainCardItem
-            title="DNS"
-            data={activeDomainData}
-            icon={<Storage />}
-          />
+          <DomainCardItem title="DNS" data={DUMMYDATA_DNS} icon={<Storage />} />
         </Grid>
       </Grid>
       <DomainCardItem
         title="Summary"
-        data={DUMMYDATA_SEARCH}
+        data={DUMMYDATA_SUMMARY}
         icon={<Search />}
       />
     </Box>
@@ -273,23 +343,35 @@ export const Domain: NextPage = () => {
       <Box maxWidth={"1500px"} margin={"0 auto"} padding={"0 20px"}>
         <Box sx={{ display: "flex", transition: "300ms" }}>
           {/* Main Body Col   */}
-
-          {activeDomainName && ActiveWebsiteInformation}
+          <Box sx={{ flexGrow: activeDomainName ? 1 : 0, flexShrink: 0 }}>
+            {activeDomainName && ActiveWebsiteInformation}
+          </Box>
 
           {/* Recent Col   */}
           <Box
             sx={{
-              width: "100%",
-              maxWidth: "320px",
+              // width: "100%",
+              // maxWidth: "320px",
+              display: "flex",
               margin: "0 auto",
               padding: "15px 25px",
               transition: "300ms",
+              flexGrow: activeDomainName ? 0 : 1,
+              flexShrink: 1,
+              flexBasis: "320px",
             }}
           >
-            <h3>Recent Searches</h3>
-            {recentDomains.map((d) => (
-              <RecentDomainItem onClick={recentSearchHandler} domain={d} />
-            ))}
+            <Box sx={{ width: "100%", maxWidth: "740px", margin: "0 auto" }}>
+              <h3>Recent Searches</h3>
+              {recentDomains.slice(0, 10).map((d) => (
+                <RecentDomainItem
+                  onClick={recentSearchHandler}
+                  key={Math.random()}
+                  domain={d}
+                  activeDomainName={activeDomainName}
+                />
+              ))}
+            </Box>
           </Box>
         </Box>
       </Box>
