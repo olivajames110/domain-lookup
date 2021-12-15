@@ -1,5 +1,5 @@
 export default {
-  "*.{js,jsx,ts,tsx}": ["eslint --fix", "eslint"],
+  "*.{js,jsx,ts,tsx}": ["eslint --fix", "eslint", "prettier --write"],
   "**/*.ts?(x)": () => "tsc --noEmit --pretty",
-  "*.json": ["prettier --write"],
+  "*": ["prettier --ignore-unknown --write"],
 };
