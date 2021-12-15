@@ -17,7 +17,8 @@ import DomainCardItemSection from "./DomainCardItemSection";
 interface Props {
   title: string;
   icon?: (props: SvgIconProps) => JSX.Element;
-  data?: Array;
+  data?: Array<{ title: string; rows: any }>;
+  href?: string;
   className?: string;
   href?: string;
 }
@@ -108,7 +109,7 @@ const DomainCardItem: FunctionComponent<Props> = (props) => (
           title={s.title}
           rows={s.rows}
         />
-      ))}
+      )) ?? null}
     </Box>
   </Box>
 );
