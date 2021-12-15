@@ -1,6 +1,13 @@
 import { Axios } from "axios";
 import { localApiServerURL } from "./env";
 
+type Result = ResultArrayElement[];
+
+interface ResultArrayElement {
+  server: string;
+  data: RegistrationData;
+}
+
 export interface RegistrationData {
   domainName?: string | undefined;
   registryDomainId?: string | undefined;
@@ -55,12 +62,12 @@ const apiClient = new Axios({
 });
 
 export const whois = async (domain: string) => {
-  console.log("domain is: ", domain);
   const result = await apiClient.get<RegistrationData>("/whois", {
     params: {
       domain: domain,
     },
   });
+  console.log("result is: ", result.data);
 
   return result.data;
 };

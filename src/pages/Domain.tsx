@@ -27,6 +27,8 @@ import RecentDomainItem from "src/components/RecentDomainItem";
 import DomainCardItemSection from "src/components/DomainCardItemSection";
 import DomainSearchSection from "src/components/DomainSearchSection";
 
+import { whois } from "src/services/whois";
+
 import { getDomainIP, getDomainMX, getDomainNS } from "src/services/domain";
 
 const clearButtonStyles = css`
@@ -193,6 +195,7 @@ const DUMMYDATA_RECENT = [
 export const Domain: NextPage = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [whoisResult, setWhoisResult] = useState<any>({});
   const [domainSearchName, setDomainSearchName] = useState("");
   const [domainSearchTopLevelDomain, setDomainSearchTopLevelDomain] =
     useState("com");
@@ -234,6 +237,9 @@ export const Domain: NextPage = () => {
     setRecentDomains(recent);
 
     const result = await loadDomainData(combinedDomain);
+
+    const whoisResult = await whois(combinedDomain);
+    setWhoisResult(whoisResult);
 
     console.log(`results for ${combinedDomain} is ${JSON.stringify(result)}`);
     setActiveDomainData(DUMMYDATA_SUMMARY);
@@ -347,6 +353,8 @@ export const Domain: NextPage = () => {
         data={DUMMYDATA_SUMMARY}
         icon={<Search />}
       />
+
+      <code>{whoisResult ?? ""}</code>
     </Box>
   );
 
