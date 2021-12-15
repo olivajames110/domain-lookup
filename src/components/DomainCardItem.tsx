@@ -10,7 +10,7 @@ import {
   CardContent,
   Icon,
 } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import { LaunchOutlined, Search } from "@mui/icons-material";
 import { Box } from "@mui/system";
 import DomainCardItemSection from "./DomainCardItemSection";
 
@@ -19,6 +19,7 @@ interface Props {
   icon?: (props: SvgIconProps) => JSX.Element;
   data?: Array;
   className?: string;
+  href?: string;
 }
 
 const cardTitle = css`
@@ -31,8 +32,28 @@ const cardTitle = css`
   }
 `;
 
+const launchIcon = css`
+  font-size: 13px;
+
+  svg {
+    display: block;
+    margin-right: 4px;
+    height: 12px;
+  }
+`;
+// const launchIcon = css`
+//   padding: 8px 0;
+//   font-size: 13px;
+//   margin-left: 10px;
+//   svg {
+//     display: block;
+//     margin-right: 4px;
+//     height: 12px;
+//   }
+// `;
+
 const DomainCardItem: FunctionComponent<Props> = (props) => (
-  <Box sx={{ marginBottom: "30px", fontSize: "12px" }}>
+  <Box sx={{ marginBottom: "30px", fontSize: "12px", position: "relative" }}>
     <a
       href={props.href}
       target={"_blank"}
@@ -41,6 +62,7 @@ const DomainCardItem: FunctionComponent<Props> = (props) => (
       style={{
         display: "flex",
         alignItems: "center",
+        maxWidth: "100px",
         color: "#333333",
         textDecoration: "none",
         marginBottom: "-5px",
@@ -59,6 +81,27 @@ const DomainCardItem: FunctionComponent<Props> = (props) => (
         overflowY: "auto",
       }}
     >
+      {props.href && (
+        <a
+          href={props.href}
+          target={"_blank"}
+          className={cardTitle}
+          rel="noreferrer"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            position: "absolute",
+            right: 0,
+            color: "#333333",
+            textDecoration: "none",
+            marginBottom: "-5px",
+          }}
+        >
+          <Box className={launchIcon}>
+            <LaunchOutlined />
+          </Box>
+        </a>
+      )}
       {props.data.map((s) => (
         <DomainCardItemSection
           key={Math.random()}

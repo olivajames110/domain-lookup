@@ -74,7 +74,7 @@ const DUMMYDATA_SUMMARY = [
     title: "DNS",
     rows: [
       {
-        title: "Registrar Company",
+        title: "Email Provider",
         value: "GoDaddy",
       },
       {
@@ -204,9 +204,11 @@ export const Domain: NextPage = () => {
     "example5.com",
   ]);
 
-  const topLevelDomainHandler = (e) => {
-    const topLevelDomain = e.target.value;
-    setDomainSearchTopLevelDomain(topLevelDomain);
+  const topLevelDomainHandler = (value) => {
+    console.log("value", value);
+    // console.log(e);
+    // const topLevelDomain = e.target.value;
+    setDomainSearchTopLevelDomain(value);
   };
 
   const domainSubmitHandler = () => {
@@ -246,6 +248,7 @@ export const Domain: NextPage = () => {
       domainSearchName={domainSearchName}
       topLevelDomainHandler={topLevelDomainHandler}
       domainSubmitHandler={domainSubmitHandler}
+      domainSearchTopLevelDomain={domainSearchTopLevelDomain}
     />
   );
 
@@ -367,7 +370,7 @@ export const Domain: NextPage = () => {
               flexBasis: "320px",
             }}
           >
-            <Box sx={{ width: "100%", maxWidth: "740px", margin: "0 auto" }}>
+            <Box sx={{ width: "100%", maxWidth: "824px", margin: "0 auto" }}>
               <h3>Recent Searches</h3>
               {recentDomains.slice(0, 10).map((d) => (
                 <RecentDomainItem
