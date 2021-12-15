@@ -27,8 +27,10 @@ import RecentDomainItem from "src/components/RecentDomainItem";
 import DomainCardItemSection from "src/components/DomainCardItemSection";
 import DomainSearchSection from "src/components/DomainSearchSection";
 
+import { getDomainIP, getDomainMX, getDomainNS } from "src/services/domain";
+
 const clearButtonStyles = css`
-    position: absolute;
+      position: absolute;
     top: -5px;
     right: -5px;
     display: flex;
@@ -204,21 +206,36 @@ export const Domain: NextPage = () => {
     "example5.com",
   ]);
 
-  const topLevelDomainHandler = (e) => {
-    const topLevelDomain = e.target.value;
+  const loadDomainData = async (domainName: string) => {
+    const [ip, mx, ns] = await Promise.all([
+      await getDomainIP(domainName),
+      await getDomainMX(domainName),
+      await getDomainNS(domainName),
+    ]);
+
+    return { ip, mx, ns };
+  };
+
+  const topLevelDomainHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const topLevelDomain = event.target.value;
     setDomainSearchTopLevelDomain(topLevelDomain);
   };
 
-  const domainSubmitHandler = () => {
-    setDomainSearchName("");
-
+  const domainSubmitHandler = async () => {
     const combinedDomain = `${domainSearchName}.${domainSearchTopLevelDomain}`;
+    setDomainSearchName("");
 
     //Post request with Domain name to server
     //Get Request with data object
     setActiveDomainName(combinedDomain);
     const recent = [combinedDomain, ...recentDomains];
     setRecentDomains(recent);
+
+    const result = await loadDomainData(combinedDomain);
+
+    console.log(`results for ${combinedDomain} is ${JSON.stringify(result)}`);
     setActiveDomainData(DUMMYDATA_SUMMARY);
   };
 

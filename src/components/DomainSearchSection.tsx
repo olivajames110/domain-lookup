@@ -50,7 +50,7 @@ const buttonStyle = css`
     },
     `;
 
-const styles = (theme) => ({
+const styles = (theme: any) => ({
   textField: {
     width: "90%",
     marginLeft: "auto",

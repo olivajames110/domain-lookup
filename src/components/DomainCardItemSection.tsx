@@ -17,7 +17,7 @@ interface Props {
   title: string;
   icon?: (props: SvgIconProps) => JSX.Element;
   label?: string;
-  rows?: Array;
+  rows?: Array<{ title: string; value: string }>;
   className?: string;
 }
 
@@ -25,7 +25,7 @@ const DomainCardItemSection: FunctionComponent<Props> = (props) => (
   <Box sx={{ margin: "25px 0" }}>
     <span style={{ fontWeight: "bold", fontSize: "14px" }}>{props.title}</span>
 
-    {props.rows.map((i) => {
+    {props?.rows?.map((i) => {
       return (
         <Box
           key={Math.random()}
@@ -49,7 +49,7 @@ const DomainCardItemSection: FunctionComponent<Props> = (props) => (
           </Box>
         </Box>
       );
-    })}
+    }) ?? null}
   </Box>
 );
 
