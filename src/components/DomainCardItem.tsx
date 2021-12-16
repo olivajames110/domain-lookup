@@ -103,13 +103,14 @@ const DomainCardItem: FunctionComponent<Props> = (props) => (
           </Box>
         </a>
       )}
-      {props.data.map((s) => (
+      {/* {props.data.map((s) => (
         <DomainCardItemSection
           key={Math.random()}
           title={s.title}
           rows={s.rows}
         />
-      )) ?? null}
+      )) ?? null} */}
+      {props.children}
     </Box>
   </Box>
 );
