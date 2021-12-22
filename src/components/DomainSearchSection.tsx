@@ -19,12 +19,12 @@ import { Search } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
 interface Props {
-  title: string;
+  title?: string;
   domainSearchName: string;
   domainSearchTopLevelDomain: string;
-  onChange?: () => null;
-  domainSubmitHandler?: () => null;
-  topLevelDomainHandler?: () => null;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  domainSubmitHandler?: () => void;
+  topLevelDomainHandler?: (domain: string) => void;
 }
 
 const buttonStyle = css`
@@ -129,17 +129,18 @@ const DomainSearchSection: FunctionComponent<Props> = (props) => {
             disablePortal
             id="combo-box-demo"
             options={TLDOptions}
-            value={props.domainSearchTopLevelDomain}
+            value={{ label: "", value: props.domainSearchTopLevelDomain }}
             onInputChange={(e, NewValue) => {
-              console.log("E:", e);
-              console.log("New Value", NewValue);
-              props.topLevelDomainHandler(NewValue);
+              if (props.topLevelDomainHandler)
+                props.topLevelDomainHandler(NewValue);
             }}
             sx={{ width: 300, borderRadius: 0 }}
             renderInput={(params) => <TextField {...params} />}
           />
           <button
-            onClick={() => props.domainSubmitHandler()}
+            onClick={() => {
+              if (props.domainSubmitHandler) props.domainSubmitHandler();
+            }}
             className={buttonStyle}
           >
             <span>
