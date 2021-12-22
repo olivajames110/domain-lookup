@@ -2710,6 +2710,13 @@ minimist@^1.2.0, minimist@~1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
+mojodns@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/mojodns/-/mojodns-0.0.7.tgz#80dd74786c2589bc5101d538b75caa9580949e07"
+  integrity sha512-xKnWWBliGwl+Qmj5B1Ft6fHdCxfb7ngnyG04z61rAS21MvT0uLml85Kn+gQ3flR8k7UCjWTVF4FElRVGG7KAMA==
+  dependencies:
+    axios "^0.24.0"
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
