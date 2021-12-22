@@ -88,7 +88,8 @@ const RecentDomainItem: FunctionComponent<Props> = (props) => {
       sx={{
         backgroundColor: "#ffffff",
         border: "1px solid #bfbcbc;",
-        borderRadius: "24px",
+        borderRadius: "18px",
+        // borderRadius: "24px",
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",

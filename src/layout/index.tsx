@@ -7,8 +7,11 @@ import { Sidebar } from "./Sidebar";
 const themeOptions = {
   palette: {
     primary: {
-      main: "#601dea",
+      main: "#1e76ba",
     },
+  },
+  shape: {
+    borderRadius: 0,
   },
   typography: {
     fontSize: 12,

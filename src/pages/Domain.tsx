@@ -30,131 +30,9 @@ import DomainSearchSection from "src/components/DomainSearchSection";
 import { whois } from "src/services/whois";
 
 import { getDomainIP, getDomainMX, getDomainNS } from "src/services/domain";
+import { clearButtonStyles } from "styles/domainPage";
+import DomainDataSection from "src/components/DomainDataSection";
 
-const clearButtonStyles = css`
-      position: absolute;
-    top: -5px;
-    right: -5px;
-    display: flex;
-    align-items: center;
-    justify-content: content;
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-size: 13px;
-    width: 24px;
-    height: 24px;
-    font-size: 12px;
-    text-decoration: underline;
-    background:#ffffff;
-    border-radius: 50px;
-    padding: 0;
-    svg {
-      display: block;
-      height: 14px
-    }
-   ,
-`;
-
-const DUMMYDATA_SUMMARY = [
-  {
-    title: "WHOIS",
-    rows: [
-      {
-        title: "Registrar Company",
-        value: "GoDaddy",
-      },
-      {
-        title: "Name Servers",
-        value: "Example Server1",
-      },
-      {
-        title: "Admin Email",
-        value: "email@email.com",
-      },
-    ],
-  },
-  {
-    title: "DNS",
-    rows: [
-      {
-        title: "Registrar Company",
-        value: "GoDaddy",
-      },
-      {
-        title: "A-Record",
-        value: "75.103.71.153",
-      },
-      {
-        title: "C Name",
-        value: "75.103.71.153",
-      },
-    ],
-  },
-];
-const DUMMYDATA_WHOIS = [
-  {
-    title: "Registrar Info",
-    rows: [
-      {
-        title: "Name",
-        value: "GoDaddy.com, LLC",
-      },
-      {
-        title: "Created",
-        value: "Jan 30 2006",
-      },
-      {
-        title: "Expires",
-        value: "Jan 30 2022",
-      },
-    ],
-  },
-
-  {
-    title: "Name Servers",
-    rows: [
-      {
-        value: "ns1.domain.com",
-      },
-      {
-        value: "ns2.domain.com",
-      },
-    ],
-  },
-];
-const DUMMYDATA_DNS = [
-  {
-    title: "A-Record",
-    rows: [
-      {
-        value: "75.103.71.153",
-      },
-    ],
-  },
-  {
-    title: "C Name",
-    rows: [
-      {
-        value: "75.103.71.153",
-      },
-    ],
-  },
-  {
-    title: "MX Records",
-    rows: [
-      {
-        value: "alt1.aspmx.l.google.com",
-      },
-      {
-        value: "aspmx2.googlemail.com",
-      },
-      {
-        value: "aspmx3.googlemail.com",
-      },
-    ],
-  },
-];
 const DUMMYDATA_RECENT = [
   {
     title: "Domain",
@@ -192,15 +70,153 @@ const DUMMYDATA_RECENT = [
   },
 ];
 
+const DUMMY_DATA = {
+  summary: [
+    {
+      title: "WHOIS",
+      rows: [
+        {
+          title: "Registrar Company",
+          value: "GoDaddy",
+        },
+        {
+          title: "Name Servers",
+          value: "Example Server1",
+        },
+        {
+          title: "Admin Email",
+          value: "email@email.com",
+        },
+      ],
+    },
+    {
+      title: "DNS",
+      rows: [
+        {
+          title: "Email Provider",
+          value: "GoDaddy",
+        },
+        {
+          title: "A-Record",
+          value: "75.103.71.153",
+        },
+        {
+          title: "C Name",
+          value: "75.103.71.153",
+        },
+      ],
+    },
+  ],
+  whois: [
+    {
+      title: "Registrar Info",
+      rows: [
+        {
+          title: "Name",
+          value: "GoDaddy.com, LLC",
+        },
+        {
+          title: "Created",
+          value: "Jan 30 2006",
+        },
+        {
+          title: "Expires",
+          value: "Jan 30 2022",
+        },
+      ],
+    },
+
+    {
+      title: "Name Servers",
+      rows: [
+        {
+          value: "data.mx.com",
+        },
+        {
+          value: "ns2.domain.com",
+        },
+      ],
+    },
+  ],
+
+  dns: [
+    {
+      title: "A-Record",
+      rows: [
+        {
+          value: "75.103.71.153",
+        },
+      ],
+    },
+    {
+      title: "C Name",
+      rows: [
+        {
+          value: "75.103.71.153",
+        },
+      ],
+    },
+    {
+      title: "MX Records",
+      rows: [
+        {
+          value: "alt1.aspmx.l.google.com",
+        },
+        {
+          value: "aspmx2.googlemail.com",
+        },
+        {
+          value: "aspmx3.googlemail.com",
+        },
+      ],
+    },
+  ],
+
+  all: [
+    {
+      title: "Registrar Info",
+      rows: [
+        {
+          title: "Name",
+          value: "GoDaddy.com, LLC",
+        },
+        {
+          title: "Created",
+          value: "Jan 30 2006",
+        },
+        {
+          title: "Expires",
+          value: "Jan 30 2022",
+        },
+      ],
+    },
+
+    {
+      title: "Name Servers",
+      rows: [
+        {
+          value: "data.mx.com",
+        },
+        {
+          value: "ns2.domain.com",
+        },
+      ],
+    },
+  ],
+};
+
 export const Domain: NextPage = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [whoisResult, setWhoisResult] = useState<any>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [domainSearchName, setDomainSearchName] = useState("");
   const [domainSearchTopLevelDomain, setDomainSearchTopLevelDomain] =
     useState("com");
+
   const [activeDomainName, setActiveDomainName] = useState("");
-  const [activeDomainData, setActiveDomainData] = useState([]);
+  const [activeDomainData, setActiveDomainData] = useState();
+
   const [recentDomains, setRecentDomains] = useState([
     "example1.com",
     "example2.com",
@@ -222,42 +238,46 @@ export const Domain: NextPage = () => {
   const topLevelDomainHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const topLevelDomain = event.target.value;
-    setDomainSearchTopLevelDomain(topLevelDomain);
+    // const topLevelDomain = event.target.value;
+    // setDomainSearchTopLevelDomain(topLevelDomain);
   };
 
   const domainSubmitHandler = async () => {
     const combinedDomain = `${domainSearchName}.${domainSearchTopLevelDomain}`;
     setDomainSearchName("");
 
-    //Post request with Domain name to server
-    //Get Request with data object
     setActiveDomainName(combinedDomain);
     const recent = [combinedDomain, ...recentDomains];
     setRecentDomains(recent);
+    setIsLoading(true);
+    try {
+      const result = await loadDomainData(combinedDomain);
+      const whoisResult = await whois(combinedDomain);
+      const whoIs = JSON.parse(whoisResult);
+      const combinedResult = { ...result, whoIs };
+      console.log("r", combinedResult);
+      // setWhoisResult(whoisResult);
 
-    const result = await loadDomainData(combinedDomain);
+      console.log(
+        `results for ${combinedDomain} is ${JSON.stringify(combinedResult)}`
+      );
 
-    const whoisResult = await whois(combinedDomain);
-    setWhoisResult(whoisResult);
-
-    console.log(`results for ${combinedDomain} is ${JSON.stringify(result)}`);
-    setActiveDomainData(DUMMYDATA_SUMMARY);
+      setActiveDomainData(combinedResult);
+      setIsLoading(false);
+    } catch (err) {
+      console.log("There was an error", err);
+    }
   };
 
   const recentSearchHandler = (d) => {
     console.log("Recent Name");
     setActiveDomainName(d);
-
     const recent = [d, ...recentDomains];
     setRecentDomains(recent);
-
-    setActiveDomainData(DUMMYDATA_RECENT);
   };
 
   const clearFormHandler = () => {
     setDomainSearchName("");
-
     setActiveDomainName("");
   };
 
@@ -269,6 +289,7 @@ export const Domain: NextPage = () => {
       domainSearchName={domainSearchName}
       topLevelDomainHandler={topLevelDomainHandler}
       domainSubmitHandler={domainSubmitHandler}
+      domainSearchTopLevelDomain={domainSearchTopLevelDomain}
     />
   );
 
@@ -319,42 +340,12 @@ export const Domain: NextPage = () => {
       }}
     >
       {SelectedDomainSearchName}
-      <Grid spacing={3} container>
-        <Grid item xs={4}>
-          <DomainCardItem
-            href={`https://${activeDomainName}`}
-            activeDomainName={activeDomainName}
-            title="Summary"
-            data={DUMMYDATA_SUMMARY}
-            icon={<Assignment />}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <DomainCardItem
-            href={`https://who.is/whois/${activeDomainName}`}
-            activeDomainName={activeDomainName}
-            title="WHOIS"
-            data={DUMMYDATA_WHOIS}
-            icon={<AccountBox />}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <DomainCardItem
-            activeDomainName={activeDomainName}
-            href={`https://mxtoolbox.com/SuperTool.aspx?action=https%3a%2f%2f${activeDomainName}%2f&run=toolpage`}
-            title="DNS"
-            data={DUMMYDATA_DNS}
-            icon={<Storage />}
-          />
-        </Grid>
-      </Grid>
-      <DomainCardItem
-        title="Summary"
-        data={DUMMYDATA_SUMMARY}
-        icon={<Search />}
+      <DomainDataSection
+        isLoading={isLoading}
+        activeDomainName={activeDomainName}
+        activeDomainData={activeDomainData}
       />
-
-      <code>{whoisResult ?? ""}</code>
+      {/* <code>{whoisResult ?? ""}</code> */}
     </Box>
   );
 
@@ -392,7 +383,7 @@ export const Domain: NextPage = () => {
               flexBasis: "320px",
             }}
           >
-            <Box sx={{ width: "100%", maxWidth: "740px", margin: "0 auto" }}>
+            <Box sx={{ width: "100%", maxWidth: "824px", margin: "0 auto" }}>
               <h3>Recent Searches</h3>
               {recentDomains.slice(0, 10).map((d) => (
                 <RecentDomainItem
