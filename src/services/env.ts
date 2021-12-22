@@ -5,5 +5,5 @@ export const localApiServerURL = (): string => {
   }
 
   // Prod Environment
-  return "http://domain-lookup.ordereze.com/api";
+  return "https://domain-lookup.ordereze.com/api";
 };
