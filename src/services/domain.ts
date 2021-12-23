@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from "axios";
 import MojoDnsClient from "mojodns";
 
 const dnsApi = new MojoDnsClient("2cf00d90-32d7-4a28-8ebd-d1cf3284e8ac");

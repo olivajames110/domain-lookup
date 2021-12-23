@@ -57,7 +57,9 @@ export const Home: NextPage = () => {
     "example4.com",
     "example5.com",
   ]);
-
+  const topLevelDomainHandler = (tld: string) => {
+    setDomainSearchTopLevelDomain(tld);
+  };
   const loadDomainData = async (domainName: string) => {
     const [ip, mx, ns] = await Promise.all([
       await getDomainIP(domainName),
@@ -111,6 +113,7 @@ export const Home: NextPage = () => {
       domainSearchName={domainSearchName}
       domainSubmitHandler={domainSubmitHandler}
       domainSearchTopLevelDomain={domainSearchTopLevelDomain}
+      topLevelDomainHandler={topLevelDomainHandler}
     />
   );
 
@@ -205,7 +208,7 @@ export const Home: NextPage = () => {
             }}
           >
             <Box sx={{ width: "100%", maxWidth: "824px", margin: "0 auto" }}>
-              <h3>Recent Searches</h3>
+              <h3>Recent Searches (WIP)</h3>
               {recentDomains.slice(0, 10).map((d) => (
                 <RecentDomainItem
                   onClick={recentSearchHandler}

@@ -24,37 +24,36 @@ interface Props {
   domainSearchTopLevelDomain: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   domainSubmitHandler?: () => void;
-  topLevelDomainHandler?: (domain: string) => void;
+  topLevelDomainHandler?: (tld: string) => void;
 }
 
 const buttonStyle = css`
-    width: 180px;
-    height: 52.7px;
-    border: none;
-    padding: 12px 16px;
-    border-radius: 0;
-    /* border-top-right-radius: 2px;
+  width: 180px;
+  height: 52.7px;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 0;
+  /* border-top-right-radius: 2px;
     border-bottom-right-radius: 2px; */
-    background-color: #1e76ba;
-    /* background-color: #312F2F; */
-    color: #ffffff;
-    font-size: 14px;
-    /* transition: 140ms; */
-    display: flex; 
-    justify-content: space-evenly;
-    align-items: center;
-    transition: 100ms ease;
-    cursor: pointer;
-    
-    svg {
-      display: block;
-    }
-    &:hover {
-      background: #4b4b4b ;
-    },
-    `;
+  background-color: #1e76ba;
+  /* background-color: #312F2F; */
+  color: #ffffff;
+  font-size: 14px;
+  /* transition: 140ms; */
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  transition: 100ms ease;
+  cursor: pointer;
 
-// const TLDOptions = [{ value: "com" }, { value: "net" }, { value: "org" }];
+  svg {
+    display: block;
+  }
+  &:hover {
+    background: #4b4b4b;
+  }
+`;
+
 const TLDOptions = [
   { label: "com", value: "com" },
   { label: "net", value: "net" },
@@ -129,7 +128,10 @@ const DomainSearchSection: FunctionComponent<Props> = (props) => {
             disablePortal
             id="combo-box-demo"
             options={TLDOptions}
-            value={{ label: "", value: props.domainSearchTopLevelDomain }}
+            value={{
+              label: props.domainSearchTopLevelDomain,
+              value: props.domainSearchTopLevelDomain,
+            }}
             onInputChange={(e, NewValue) => {
               if (props.topLevelDomainHandler)
                 props.topLevelDomainHandler(NewValue);
