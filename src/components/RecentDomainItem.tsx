@@ -9,7 +9,7 @@ interface Props {
   domain: string;
   label?: string;
   activeDomainName?: string;
-  onClick?: () => null;
+  onClick?: (domain: string) => void;
 }
 
 const recentButtonStyle = css`
@@ -32,15 +32,15 @@ const recentButtonStyle = css`
     },
 `;
 
-const CardDetailItem = (props) => {
+const CardDetailItem = (props: any) => {
   return (
     <>
       <span style={{ fontWeight: "bold", fontSize: "13px" }}>
         {props.title}
       </span>
-      {props.rows?.map((r) => (
-        <div key={r} style={{ fontSize: "12px" }}>
-          {r}
+      {props.rows?.map((row: any) => (
+        <div key={row} style={{ fontSize: "12px" }}>
+          {row}
         </div>
       ))}
     </>
@@ -105,7 +105,9 @@ const RecentDomainItem: FunctionComponent<Props> = (props) => {
         }}
       >
         <button
-          onClick={() => props.onClick(props.domain)}
+          onClick={() => {
+            if (props.onClick) props.onClick(props.domain);
+          }}
           style={{
             justifyContent: "space-between",
             flexGrow: 1,

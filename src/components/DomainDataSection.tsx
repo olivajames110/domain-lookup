@@ -21,7 +21,7 @@ import {
 import { Box } from "@mui/system";
 
 import { NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import DomainCardItem from "src/components/DomainCardItem";
 import RecentDomainItem from "src/components/RecentDomainItem";
 import DomainCardItemSection from "src/components/DomainCardItemSection";
@@ -33,9 +33,19 @@ import { getDomainIP, getDomainMX, getDomainNS } from "src/services/domain";
 import { clearButtonStyles } from "styles/domainPage";
 
 interface Props {
-  title: string;
-  domainSearchName: string;
-  domainSearchTopLevelDomain: string;
+  isLoading: boolean;
+  activeDomainName: string;
+  activeDomainData:
+    | {
+        whoIs: any;
+        ip: any;
+        mx: any;
+        ns: any;
+      }
+    | undefined;
+  title?: string;
+  domainSearchName?: string;
+  domainSearchTopLevelDomain?: string;
   onChange?: () => null;
   domainSubmitHandler?: () => null;
   topLevelDomainHandler?: () => null;
@@ -47,14 +57,14 @@ const DomainDataSection: FunctionComponent<Props> = (props) => {
   const [dnsCardData, setDNSCardData] = useState({});
   const [allCardData, setAllCardData] = useState([]);
 
-  const splitIntoArray = (string) => {
+  const splitIntoArray = (string: string) => {
     const array = string.split(" ");
     const newArray = array.map((i) => Object.create({ value: i }));
     console.log(newArray);
     return newArray;
   };
 
-  const parseDate = (date) => {
+  const parseDate = (date: string) => {
     let milliseconds = Date.parse(date);
     const dateObject = new Date(milliseconds);
     const month = dateObject.toLocaleString("en-US", { month: "long" });
@@ -64,7 +74,7 @@ const DomainDataSection: FunctionComponent<Props> = (props) => {
     return parsedDate;
   };
 
-  const checkIfValid = (data) => {
+  const checkIfValid = (data: any) => {
     return data ? data : "empty";
   };
 
