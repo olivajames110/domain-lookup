@@ -1,37 +1,17 @@
-import {
-  AccountBox,
-  Assignment,
-  Clear,
-  Delete,
-  Person,
-  Search,
-  Storage,
-} from "@mui/icons-material";
-import { css } from "@emotion/css";
-import {
-  Alert,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  InputLabel,
-  Snackbar,
-  TextField,
-} from "@mui/material";
-import { Box } from "@mui/system";
-
-import { NextPage } from "next";
 import React, { useState } from "react";
-import DomainCardItem from "src/components/DomainCardItem";
-import RecentDomainItem from "src/components/RecentDomainItem";
-import DomainCardItemSection from "src/components/DomainCardItemSection";
-import DomainSearchSection from "src/components/DomainSearchSection";
+import { NextPage } from "next";
 
-import { whois } from "src/services/whois";
+import { Alert, Snackbar } from "@mui/material";
+import { Box } from "@mui/system";
+import { Clear } from "@mui/icons-material";
+import { clearButtonStyles } from "styles/domainPage";
+
+import DomainDataSection from "src/components/DomainDataSection";
+import DomainSearchSection from "src/components/DomainSearchSection";
+import RecentDomainItem from "src/components/RecentDomainItem";
 
 import { getDomainIP, getDomainMX, getDomainNS } from "src/services/domain";
-import { clearButtonStyles } from "styles/domainPage";
-import DomainDataSection from "src/components/DomainDataSection";
+import { whois } from "src/services/whois";
 
 export const Home: NextPage = () => {
   const [isError, setIsError] = useState(false);
@@ -39,9 +19,6 @@ export const Home: NextPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [domainSearchName, setDomainSearchName] = useState("");
-  const [domainSearchTopLevelDomain, setDomainSearchTopLevelDomain] =
-    useState("com");
-
   const [activeDomainName, setActiveDomainName] = useState("");
   const [activeDomainData, setActiveDomainData] = useState<{
     whoIs: any;
@@ -57,9 +34,7 @@ export const Home: NextPage = () => {
     "example4.com",
     "example5.com",
   ]);
-  const topLevelDomainHandler = (tld: string) => {
-    setDomainSearchTopLevelDomain(tld);
-  };
+
   const loadDomainData = async (domainName: string) => {
     const [ip, mx, ns] = await Promise.all([
       await getDomainIP(domainName),
@@ -71,16 +46,18 @@ export const Home: NextPage = () => {
   };
 
   const domainSubmitHandler = async () => {
-    const combinedDomain = `${domainSearchName}.${domainSearchTopLevelDomain}`;
+    let domainName = domainSearchName.includes(".")
+      ? domainSearchName
+      : `${domainSearchName}.com`;
     setDomainSearchName("");
 
-    setActiveDomainName(combinedDomain);
-    const recent = [combinedDomain, ...recentDomains];
+    setActiveDomainName(domainName);
+    const recent = [domainName, ...recentDomains];
     setRecentDomains(recent);
     setIsLoading(true);
     try {
-      const dnsResult = await loadDomainData(combinedDomain);
-      const whoisResult = await whois(combinedDomain);
+      const dnsResult = await loadDomainData(domainName);
+      const whoisResult = await whois(domainName);
 
       // quick fix for string parse
       const whoIs = JSON.parse(whoisResult as string);
@@ -112,8 +89,6 @@ export const Home: NextPage = () => {
       onChange={(e) => setDomainSearchName(e.target.value)}
       domainSearchName={domainSearchName}
       domainSubmitHandler={domainSubmitHandler}
-      domainSearchTopLevelDomain={domainSearchTopLevelDomain}
-      topLevelDomainHandler={topLevelDomainHandler}
     />
   );
 

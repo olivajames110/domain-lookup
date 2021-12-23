@@ -6,7 +6,7 @@ import { Box } from "@mui/system";
 export const Header = () => {
   return (
     <AppBar
-      sx={{ backgroundColor: "#ffffff", boxShadow: 2 }}
+      sx={{ backgroundColor: "#ffffff", boxShadow: 0 }}
       position="relative"
     >
       <Toolbar>

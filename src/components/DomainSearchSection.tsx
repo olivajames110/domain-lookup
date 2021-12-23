@@ -1,34 +1,19 @@
 import React, { FunctionComponent } from "react";
 import { css } from "@emotion/css";
-import {
-  SvgIconProps,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListItemButton,
-  Card,
-  CardContent,
-  Icon,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  Autocomplete,
-} from "@mui/material";
+import { TextField, Autocomplete } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
 interface Props {
   title?: string;
   domainSearchName: string;
-  domainSearchTopLevelDomain: string;
+
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   domainSubmitHandler?: () => void;
-  topLevelDomainHandler?: (tld: string) => void;
 }
 
 const buttonStyle = css`
-  width: 180px;
+  width: 140px;
   height: 52.7px;
   border: none;
   padding: 12px 16px;
@@ -54,12 +39,6 @@ const buttonStyle = css`
   }
 `;
 
-const TLDOptions = [
-  { label: "com", value: "com" },
-  { label: "net", value: "net" },
-  { label: "org", value: "org" },
-];
-
 const DomainSearchSection: FunctionComponent<Props> = (props) => {
   return (
     <Box
@@ -77,7 +56,7 @@ const DomainSearchSection: FunctionComponent<Props> = (props) => {
           width: "100%",
           maxWidth: "840px",
           margin: "0 auto",
-          padding: "22px 0",
+          padding: "0 0 22px 0",
         }}
       >
         <Box
@@ -109,36 +88,7 @@ const DomainSearchSection: FunctionComponent<Props> = (props) => {
               borderBottomRightRadius: "0px !important",
             }}
           />
-          <Box
-            sx={{
-              background: "#ededed",
-              height: "52.7px",
-              width: "20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              border: "none",
-              borderTop: "1px solid #c4c4c4",
-              borderBottom: "1px solid #c4c4c4",
-            }}
-          >
-            .
-          </Box>
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={TLDOptions}
-            value={{
-              label: props.domainSearchTopLevelDomain,
-              value: props.domainSearchTopLevelDomain,
-            }}
-            onInputChange={(e, NewValue) => {
-              if (props.topLevelDomainHandler)
-                props.topLevelDomainHandler(NewValue);
-            }}
-            sx={{ width: 300, borderRadius: 0 }}
-            renderInput={(params) => <TextField {...params} />}
-          />
+
           <button
             onClick={() => {
               if (props.domainSubmitHandler) props.domainSubmitHandler();
